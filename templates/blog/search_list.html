@@ -1,0 +1,15 @@
+{% extends 'blog/list.html' %}
+{% block topheader %}
+<h3 class="alert alert-primary text-center">جستجوی : {{search}}</h3>
+{% endblock %}
+
+
+
+
+{% block previous_page_url %}
+{% url 'blog:search' page_obj.previous_page_number %}?q={{search}}
+{% endblock %}
+
+{% block next_page_url %}
+{% url 'blog:search' page_obj.next_page_number %}?q={{search}}
+{% endblock %}

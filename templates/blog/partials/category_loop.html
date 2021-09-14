@@ -1,0 +1,12 @@
+<ul class="navbar-nav ms-auto py-4 py-lg-0 subnav .subnav:hover .subnav-content .subnav-content">
+  {% for cat in cat.children.active %}
+  <li class="nav-item">
+    <a
+      class="nav-link px-lg-3 py-3 py-lg-4 subnavbtn subnav-content "
+      href="{% url 'blog:category' cat.slug %}"
+      >{{cat.title}}</a
+    >
+    {% include 'blog/partials/category_loop.html' %}
+  </li>
+  {% endfor %}
+</ul>

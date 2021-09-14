@@ -1,0 +1,59 @@
+{% extends 'blog/base.html' %}
+{% load ratings %}
+{% load base_tags %}
+{% load comment_tags %}
+{% load humanize %}
+{% block title %}
+ |
+{{object.title}}
+{% endblock %}
+
+
+
+{% block main %}
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('{{object.thumbnail.url}}')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1>{{object.title}}</h1>
+                                <time>{{object.publish |naturaltime}}</time>
+                            <div>{% ratings object %}</div>
+                            <div>تعداد بازدید : {{object.hits.count}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center text-justify">
+                    <div class="col-md-10 col-lg-8 col-xl-7 ">
+                    <aside>
+                    {% month_popular_articles %}
+                    {% month_hot_articles %}
+                    {% month_rated_articles %}
+                    </aside>
+                    {% if object.is_special %}
+                        {% if user.is_autenticated and False or user.is_superuser or user.is_special_user or object.author == user  %}
+                        {{object.description|safe}}
+                          {# Loading the template tag #}
+                        {% render_comments object request %}  {# Render all the comments belong to the passed object "obj" #}
+                        {% include_bootstrap %} {# Include bootstrap 4.1.1 - remove this line if BS is already used in your project #}
+                        {% else %}
+                        {{article.description|striptags|truncatewords:20 |linebreaks}}
+                        <strong class="alert alert-success" style="font-size:14px"> کاربر عزیز <strong style="color:green;">{{user.get_full_name}}</strong>،این مقاله ویژه است و برای مشاهده آن باید  <a href="" style="color:blue;">اشتراک ویژه</a> تهیه کنید !</strong>
+                        {% endif %}
+                    {% else %} 
+                     {{object.description|safe}}
+                     {# Loading the template tag #}
+                     {% render_comments object request %}
+                     {% include_bootstrap %}
+                    {% endif %}
+                    </div>
+                </div>
+            </div> 
+        </article>
+{% endblock %}

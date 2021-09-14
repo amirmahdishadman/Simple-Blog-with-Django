@@ -1,0 +1,92 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load ratings %}
+{% load base_tags %}
+{% load humanize %}
+{% block main %}
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('{% static 'blog/assets/img/home-bg.jpg'%}')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1 style="font-family: 'Sahel';">گالانت</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="row-12 alert alert-success" style="margin-left: 239px;
+    margin-right: 239px;">
+        <p style="text-align:center; color:black; font-weight:bold; font-size:34px;">مقالات پیشنهادی</p>
+        {% slider %}
+        </div>
+    <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                <aside style="left: 240px !important;">
+                    {% month_popular_articles %}
+                    {% month_hot_articles %}
+                    {% month_rated_articles %}
+                </aside>
+                {% block topheader %}{% endblock %}
+                    {% for article in object_list %}
+                     <!-- Divider-->
+                    <hr class="my-4" />
+                    <!-- Post preview-->
+                    <div class="post-preview">
+                    
+                        <a href="{%url 'blog:detail' article.slug%}">
+                        
+                            <h2 class="post-title">{{article.title}}</h2>
+                            <h3 class="post-subtitle">{{article.description|striptags|truncatewords:20 |linebreaks}} </h3>
+                            
+                        </a>
+                        
+                        <p class="post-meta">
+                            نوشته شده توسط  
+                            <a href="{% url 'blog:author' article.author %}">{{article.author.get_full_name}}</a>
+                            در  {{article.publish |naturaltime}}
+                        </p>
+                        <p class="post-meta " style="color:green;">
+                        {% if article.is_special %}
+                        پست ویژه
+                        <i class="fa fa-check-square" style="color:green;"></i>
+                        {% endif %}
+                        </p>
+                        <div>
+                        {% for cat in article.category.active %}
+                        <a href="{% url 'blog:category' cat.slug %}">#{{cat.title}}</a>
+                        {% endfor %}
+                        </div>
+                        <div>تعداد بازدید : {{article.hits.count}}</div>
+                    </div>
+                    {% empty %}
+                    <strong>متاسفانه مقاله ای برای نمایش یافت نشد!</strong>
+                    {% endfor %}
+
+
+                   
+                    <!-- Pager-->
+                    <div class="d-flex justify-content-end mb-4 ">
+                    <!-- Pager-->
+                    {% if is_paginated %}
+                   <div class="d-flex justify-content-end mb-4 ">
+                    <!-- Pager-->
+                    {% if page_obj.has_previous %}
+                    <a class="btn btn-primary text-uppercase " href="{% block previous_page_url %} {% endblock %}">&rarr; پست های جدید تر </a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                    <a class="btn btn-primary text-uppercase " href="{% block next_page_url %} {% endblock %}">پست های قدیمی تر &larr;</a>
+                    {% endif %}
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block title %}
+| صفحه اصلی
+{% endblock %}

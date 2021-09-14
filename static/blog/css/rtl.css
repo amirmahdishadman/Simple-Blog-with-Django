@@ -1,0 +1,97 @@
+
+
+
+@font-face {
+    font-family: Sahel;
+    src: url('Sahel.eot');
+    src: url('Sahel.eot?#iefix') format('embedded-opentype'),
+         url('Sahel.woff2') format('woff2'),
+         url('Sahel.woff') format('woff'),
+         url('Sahel.ttf') format('truetype');
+  }
+
+h2.post-title {
+    font-family: 'Sahel' !important;
+}
+
+
+h2.h4 {
+    font-family: 'Sahel';
+}
+
+aside{
+    width: 240px;
+    position: absolute;
+    left: -240px;
+}
+.month_popular_articles {
+    border: 1px solid #bbb;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: -5px 5px #adadad;
+    font-size: 14px;
+}
+
+
+
+
+a.navbar-brand {
+    font-family: 'Sahel';
+}
+
+a.nav-link.px-lg-3.py-3.py-lg-4 {
+    font-family: 'Sahel';
+}
+
+h3.alert.alert-primary.text-center {
+    font-family: 'Sahel';
+}
+
+body{
+    direction: rtl;
+    text-align: right;
+    font-family: "Sahel" !important;
+    font-size: 17px !important;
+
+}
+
+.navbar-nav {
+    margin-right: auto;
+    margin-left: initial !important;
+}
+
+.post-meta
+{
+    text-align: left;
+}
+
+.pagar{
+    float: left !important;
+}
+
+
+
+
+header.masthead .site-heading .h1 {
+    font-size: 15rem;
+}
+
+
+.post-preview > a > .post-title {
+    font-size: 33px;
+}
+
+
+
+
+.pagination {
+display: inline-block;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,84 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}{% block title-meta %}  لیست مقالات {% endblock %}{% endblock %}
+
+
+{% block main %}
+        <div class="row">
+          <div class="col-12">
+           {% if article_list %}
+            <div class="card">
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>عنوان مقاله</th>
+                      <th>تصویر</th>
+                      <th>دسته بندی</th>
+                      <th>نویسنده</th>
+                      <th>خلاصه</th>
+                      <th>زمان انتشار</th>
+                      <th>مقاله ویژه</th>
+                      <th>وضعیت</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for article in object_list %}
+                    <tr>
+                      <td>
+                      {% if article.status in 'BD'|make_list or user.is_superuser %}
+                      <a href="{% url 'account:article-update' article.pk %}">{{article.title}}</a>
+                      {% else %}
+                      {{article.title}}
+                      {% endif %}
+
+                      </td>
+                      <td><img src="{{article.thumbnail.url}}" width ="120" height="90"></td>
+                      <td>{{article.category_to_str}}</td>
+                      <td>{{article.author.get_full_name}}</td>
+                      <td>{{article.description|striptags|truncatewords:"10"}}</td>
+                      <td>{{article.jpublish}}</td>
+                      <td>
+                        {% if article.is_special %}
+                        <i class="fa fa-check-circle" style="color:green;"></i>
+                        {% else %}
+                        <i class="fa fa-minus-circle" style="color:red;"></i>
+                        {% endif %}
+                      </td>
+                      <td>
+                      {% if article.status == 'P' %}
+                        <span class="badge badge-success"> منتشر شده </span>
+                        <span class ="badge badge-primary"><a href="{% url 'blog:detail' article.slug %}" style="color:white;" target="_blank">نمایش</a></span>
+                      {% elif article.status == 'I' %}
+                        <span class="badge" style="background-color: #d50fff; color: white;"> در حال برسی </span>
+                        {% if user.is_superuser %}
+                          <span class ="badge badge-secondary"><a href="{% url 'blog:preview' article.pk %}" style="color:white;" target="_blank">پیش نمایش</a></span>
+                        {% endif %}
+                      {% elif article.status == 'B' %}
+                        <span class="badge badge-warning">برگشت داده شده</span>
+                        <span class ="badge badge-secondary"><a href="{% url 'blog:preview' article.pk %}" style="color:white;" target="_blank">پیش نمایش</a></span>
+                      {% else %}
+                        <span class="badge badge-danger">پیش نویس</span>
+                        <span class ="badge badge-secondary"><a href="{% url 'blog:preview' article.pk %}" style="color:white;" target="_blank">پیش نمایش</a></span>
+                      {% endif %}
+
+
+                      {% if user.is_superuser %}
+                      <a href="{% url 'account:article-delete' article.pk %}" class="text-danger badge" style="color: black !important;  background-color: #ff000078;">حذف مقاله</a>
+                      {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+           {% else %}
+           <h3>محتوایی برای نمایش وجود ندارد !</h3>
+           {% endif %}
+          </div>
+        </div>
+{% endblock %}

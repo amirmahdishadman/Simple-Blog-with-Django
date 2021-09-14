@@ -1,0 +1,17 @@
+{% extends "star_ratings/widget_base.html" %}
+
+
+{% load i18n %}
+{% block rating_average %}
+<div class="star-ratings-rating-average" style="text-align: center;">{% trans 'امتیاز میانگین : ' %} <span class='star-ratings-rating-value'>{{ rating.average|floatformat:"-2" }}</span></div>
+{% endblock rating_average %}
+{% block rating_count %}
+<div class="star-ratings-rating-count" style="text-align: center;">{% trans 'تعداد رای ها : ' %} <span class='star-ratings-rating-value'>{{ rating.count }}</span></div>
+{% endblock rating_count %}
+{% block rating_user %}
+<div class="star-ratings-rating-user" style="text-align: center;">{% trans 'امتیاز شما : ' %} <span class='star-ratings-rating-value'>{% if user_rating %}{{ user_rating.score }}{% else %}{% trans 'امتیازی داده نشده' %}{% endif %}</span></div>
+{% if not user.is_authenticated and not anonymous_ratings and not read_only %}
+        <span>برای ثبت امتیاز <a href="{% url 'login' %}" class="badge"  style="color:white; background-color:black; border-radius: 7px;"><strong style="font-size:15px">وارد</strong></a> شوید.</span>
+{% endif %}
+{% endblock rating_user %}
+
