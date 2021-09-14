@@ -3,6 +3,7 @@
 #start
 
 pip install -r requirements.txt
+
 mange.py migrate
 
 rename .env-sample to .env and fill it.
